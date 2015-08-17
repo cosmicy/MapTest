@@ -1,8 +1,8 @@
-package com.example.maptest;
+ï»¿package com.example.maptest;
 
 import android.app.Activity;
 
-//µØÍ¼import
+//åœ°å›¾import
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -25,25 +25,25 @@ import android.view.MenuItem;
 
 import java.util.List;
 
-//¶¨Î»import
+//å®šä½import
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
-import com.baidu.location.BDNotifyListener;//¼ÙÈçÓÃµ½Î»ÖÃÌáĞÑ¹¦ÄÜ£¬ĞèÒªimport¸ÃÀà
+import com.baidu.location.BDNotifyListener;//å‡å¦‚ç”¨åˆ°ä½ç½®æé†’åŠŸèƒ½ï¼Œéœ€è¦importè¯¥ç±»
 import com.baidu.location.Poi;
 
 //import com.baidu.mapapi.MyLocationListener;
 
 public class MainActivity extends Activity {
 
-	// µØÍ¼
+	// åœ°å›¾
 	private MapView mMapView = null;
 	private BaiduMap _mapCtrl = null;
 	private Marker mMarkerA;
 
-	// ¶¨Î»
+	// å®šä½
 	public LocationClient mLocationClient = null;
 	public BDLocationListener myListener = new MyLocationListener();
 
@@ -51,19 +51,19 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// ÔÚÊ¹ÓÃSDK¸÷×é¼şÖ®Ç°³õÊ¼»¯contextĞÅÏ¢£¬´«ÈëApplicationContext
-		// ×¢Òâ¸Ã·½·¨ÒªÔÙsetContentView·½·¨Ö®Ç°ÊµÏÖ
+		// åœ¨ä½¿ç”¨SDKå„ç»„ä»¶ä¹‹å‰åˆå§‹åŒ–contextä¿¡æ¯ï¼Œä¼ å…¥ApplicationContext
+		// æ³¨æ„è¯¥æ–¹æ³•è¦å†setContentViewæ–¹æ³•ä¹‹å‰å®ç°
 		SDKInitializer.initialize(getApplicationContext());
 
 		setContentView(R.layout.activity_main);
 
-		// »ñÈ¡µØÍ¼¿Ø¼şÒıÓÃ
+		// è·å–åœ°å›¾æ§ä»¶å¼•ç”¨
 		mMapView = (MapView) findViewById(R.id.bmapView);
 
 		_mapCtrl = mMapView.getMap();
 
 		/////////////////////
-		// µØÍ¼api²âÊÔ
+		// åœ°å›¾apiæµ‹è¯•
 		LatLng llA = new LatLng(39.906965, 116.401394);
 
 		BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher);
@@ -71,12 +71,12 @@ public class MainActivity extends Activity {
 		mMarkerA = (Marker) (_mapCtrl.addOverlay(ooA));
 
 		////////////////////
-		// ¶¨Î»
-		// ¿ªÆô¶¨Î»Í¼²ã
+		// å®šä½
+		// å¼€å¯å®šä½å›¾å±‚
 		_mapCtrl.setMyLocationEnabled(true);
-		
-		mLocationClient = new LocationClient(getApplicationContext()); // ÉùÃ÷LocationClientÀà
-		mLocationClient.registerLocationListener(myListener); // ×¢²á¼àÌıº¯Êı
+
+		mLocationClient = new LocationClient(getApplicationContext()); // å£°æ˜LocationClientç±»
+		mLocationClient.registerLocationListener(myListener); // æ³¨å†Œç›‘å¬å‡½æ•°
 
 		initLocation();
 		mLocationClient.start();
@@ -85,18 +85,18 @@ public class MainActivity extends Activity {
 
 	private void initLocation() {
 		LocationClientOption option = new LocationClientOption();
-		option.setLocationMode(LocationMode.Device_Sensors);// ¿ÉÑ¡£¬Ä¬ÈÏ¸ß¾«¶È£¬ÉèÖÃ¶¨Î»Ä£Ê½£¬¸ß¾«¶È£¬µÍ¹¦ºÄ£¬½öÉè±¸
-		option.setCoorType("bd09ll");// ¿ÉÑ¡£¬Ä¬ÈÏgcj02£¬ÉèÖÃ·µ»ØµÄ¶¨Î»½á¹û×ø±êÏµ
+		option.setLocationMode(LocationMode.Device_Sensors);// å¯é€‰ï¼Œé»˜è®¤é«˜ç²¾åº¦ï¼Œè®¾ç½®å®šä½æ¨¡å¼ï¼Œé«˜ç²¾åº¦ï¼Œä½åŠŸè€—ï¼Œä»…è®¾å¤‡
+		option.setCoorType("bd09ll");// å¯é€‰ï¼Œé»˜è®¤gcj02ï¼Œè®¾ç½®è¿”å›çš„å®šä½ç»“æœåæ ‡ç³»
 		int span = 1000;
-		option.setScanSpan(span);// ¿ÉÑ¡£¬Ä¬ÈÏ0£¬¼´½ö¶¨Î»Ò»´Î£¬ÉèÖÃ·¢Æğ¶¨Î»ÇëÇóµÄ¼ä¸ôĞèÒª´óÓÚµÈÓÚ1000ms²ÅÊÇÓĞĞ§µÄ
-		option.setIsNeedAddress(true);// ¿ÉÑ¡£¬ÉèÖÃÊÇ·ñĞèÒªµØÖ·ĞÅÏ¢£¬Ä¬ÈÏ²»ĞèÒª
-		option.setOpenGps(true);// ¿ÉÑ¡£¬Ä¬ÈÏfalse,ÉèÖÃÊÇ·ñÊ¹ÓÃgps
-		option.setLocationNotify(true);// ¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃÊÇ·ñµ±gpsÓĞĞ§Ê±°´ÕÕ1S1´ÎÆµÂÊÊä³öGPS½á¹û
-		option.setIsNeedLocationDescribe(true);// ¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃÊÇ·ñĞèÒªÎ»ÖÃÓïÒå»¯½á¹û£¬¿ÉÒÔÔÚBDLocation.getLocationDescribeÀïµÃµ½£¬½á¹ûÀàËÆÓÚ¡°ÔÚ±±¾©Ìì°²ÃÅ¸½½ü¡±
-		option.setIsNeedLocationPoiList(true);// ¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃÊÇ·ñĞèÒªPOI½á¹û£¬¿ÉÒÔÔÚBDLocation.getPoiListÀïµÃµ½
-		option.setIgnoreKillProcess(false);// ¿ÉÑ¡£¬Ä¬ÈÏfalse£¬¶¨Î»SDKÄÚ²¿ÊÇÒ»¸öSERVICE£¬²¢·Åµ½ÁË¶ÀÁ¢½ø³Ì£¬ÉèÖÃÊÇ·ñÔÚstopµÄÊ±ºòÉ±ËÀÕâ¸ö½ø³Ì£¬Ä¬ÈÏÉ±ËÀ
-		option.SetIgnoreCacheException(false);// ¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃÊÇ·ñÊÕ¼¯CRASHĞÅÏ¢£¬Ä¬ÈÏÊÕ¼¯
-		option.setEnableSimulateGps(false);// ¿ÉÑ¡£¬Ä¬ÈÏfalse£¬ÉèÖÃÊÇ·ñĞèÒª¹ıÂËgps·ÂÕæ½á¹û£¬Ä¬ÈÏĞèÒª
+		option.setScanSpan(span);// å¯é€‰ï¼Œé»˜è®¤0ï¼Œå³ä»…å®šä½ä¸€æ¬¡ï¼Œè®¾ç½®å‘èµ·å®šä½è¯·æ±‚çš„é—´éš”éœ€è¦å¤§äºç­‰äº1000msæ‰æ˜¯æœ‰æ•ˆçš„
+		option.setIsNeedAddress(true);// å¯é€‰ï¼Œè®¾ç½®æ˜¯å¦éœ€è¦åœ°å€ä¿¡æ¯ï¼Œé»˜è®¤ä¸éœ€è¦
+		option.setOpenGps(true);// å¯é€‰ï¼Œé»˜è®¤false,è®¾ç½®æ˜¯å¦ä½¿ç”¨gps
+		option.setLocationNotify(true);// å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®æ˜¯å¦å½“gpsæœ‰æ•ˆæ—¶æŒ‰ç…§1S1æ¬¡é¢‘ç‡è¾“å‡ºGPSç»“æœ
+		option.setIsNeedLocationDescribe(true);// å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®æ˜¯å¦éœ€è¦ä½ç½®è¯­ä¹‰åŒ–ç»“æœï¼Œå¯ä»¥åœ¨BDLocation.getLocationDescribeé‡Œå¾—åˆ°ï¼Œç»“æœç±»ä¼¼äºâ€œåœ¨åŒ—äº¬å¤©å®‰é—¨é™„è¿‘â€
+		option.setIsNeedLocationPoiList(true);// å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®æ˜¯å¦éœ€è¦POIç»“æœï¼Œå¯ä»¥åœ¨BDLocation.getPoiListé‡Œå¾—åˆ°
+		option.setIgnoreKillProcess(false);// å¯é€‰ï¼Œé»˜è®¤falseï¼Œå®šä½SDKå†…éƒ¨æ˜¯ä¸€ä¸ªSERVICEï¼Œå¹¶æ”¾åˆ°äº†ç‹¬ç«‹è¿›ç¨‹ï¼Œè®¾ç½®æ˜¯å¦åœ¨stopçš„æ—¶å€™æ€æ­»è¿™ä¸ªè¿›ç¨‹ï¼Œé»˜è®¤æ€æ­»
+		option.SetIgnoreCacheException(false);// å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®æ˜¯å¦æ”¶é›†CRASHä¿¡æ¯ï¼Œé»˜è®¤æ”¶é›†
+		option.setEnableSimulateGps(false);// å¯é€‰ï¼Œé»˜è®¤falseï¼Œè®¾ç½®æ˜¯å¦éœ€è¦è¿‡æ»¤gpsä»¿çœŸç»“æœï¼Œé»˜è®¤éœ€è¦
 		mLocationClient.setLocOption(option);
 	}
 
@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
 			if (location == null || mMapView == null)
 				return;
 			MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
-					// ´Ë´¦ÉèÖÃ¿ª·¢Õß»ñÈ¡µ½µÄ·½ÏòĞÅÏ¢£¬Ë³Ê±Õë0-360
+					// æ­¤å¤„è®¾ç½®å¼€å‘è€…è·å–åˆ°çš„æ–¹å‘ä¿¡æ¯ï¼Œé¡ºæ—¶é’ˆ0-360
 					.direction(100).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
 			_mapCtrl.setMyLocationData(locData);
 
@@ -148,44 +148,44 @@ public class MainActivity extends Activity {
 			sb.append(location.getLongitude());
 			sb.append("\nradius : ");
 			sb.append(location.getRadius());
-			if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS¶¨Î»½á¹û
+			if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPSå®šä½ç»“æœ
 				sb.append("\nspeed : ");
-				sb.append(location.getSpeed());// µ¥Î»£º¹«ÀïÃ¿Ğ¡Ê±
+				sb.append(location.getSpeed());// å•ä½ï¼šå…¬é‡Œæ¯å°æ—¶
 				sb.append("\nsatellite : ");
 				sb.append(location.getSatelliteNumber());
 				sb.append("\nheight : ");
-				sb.append(location.getAltitude());// µ¥Î»£ºÃ×
+				sb.append(location.getAltitude());// å•ä½ï¼šç±³
 				sb.append("\ndirection : ");
-				sb.append(location.getDirection());// µ¥Î»¶È
+				sb.append(location.getDirection());// å•ä½åº¦
 				sb.append("\naddr : ");
 				sb.append(location.getAddrStr());
 				sb.append("\ndescribe : ");
-				sb.append("gps¶¨Î»³É¹¦");
+				sb.append("gpså®šä½æˆåŠŸ");
 
-			} else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// ÍøÂç¶¨Î»½á¹û
+			} else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// ç½‘ç»œå®šä½ç»“æœ
 				sb.append("\naddr : ");
 				sb.append(location.getAddrStr());
-				// ÔËÓªÉÌĞÅÏ¢
+				// è¿è¥å•†ä¿¡æ¯
 				sb.append("\noperationers : ");
 				sb.append(location.getOperators());
 				sb.append("\ndescribe : ");
-				sb.append("ÍøÂç¶¨Î»³É¹¦");
-			} else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// ÀëÏß¶¨Î»½á¹û
+				sb.append("ç½‘ç»œå®šä½æˆåŠŸ");
+			} else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// ç¦»çº¿å®šä½ç»“æœ
 				sb.append("\ndescribe : ");
-				sb.append("ÀëÏß¶¨Î»³É¹¦£¬ÀëÏß¶¨Î»½á¹ûÒ²ÊÇÓĞĞ§µÄ");
+				sb.append("ç¦»çº¿å®šä½æˆåŠŸï¼Œç¦»çº¿å®šä½ç»“æœä¹Ÿæ˜¯æœ‰æ•ˆçš„");
 			} else if (location.getLocType() == BDLocation.TypeServerError) {
 				sb.append("\ndescribe : ");
-				sb.append("·şÎñ¶ËÍøÂç¶¨Î»Ê§°Ü£¬¿ÉÒÔ·´À¡IMEIºÅºÍ´óÌå¶¨Î»Ê±¼äµ½loc-bugs@baidu.com£¬»áÓĞÈË×·²éÔ­Òò");
+				sb.append("æœåŠ¡ç«¯ç½‘ç»œå®šä½å¤±è´¥ï¼Œå¯ä»¥åé¦ˆIMEIå·å’Œå¤§ä½“å®šä½æ—¶é—´åˆ°loc-bugs@baidu.comï¼Œä¼šæœ‰äººè¿½æŸ¥åŸå› ");
 			} else if (location.getLocType() == BDLocation.TypeNetWorkException) {
 				sb.append("\ndescribe : ");
-				sb.append("ÍøÂç²»Í¬µ¼ÖÂ¶¨Î»Ê§°Ü£¬Çë¼ì²éÍøÂçÊÇ·ñÍ¨³©");
+				sb.append("ç½‘ç»œä¸åŒå¯¼è‡´å®šä½å¤±è´¥ï¼Œè¯·æ£€æŸ¥ç½‘ç»œæ˜¯å¦é€šç•…");
 			} else if (location.getLocType() == BDLocation.TypeCriteriaException) {
 				sb.append("\ndescribe : ");
-				sb.append("ÎŞ·¨»ñÈ¡ÓĞĞ§¶¨Î»ÒÀ¾İµ¼ÖÂ¶¨Î»Ê§°Ü£¬Ò»°ãÊÇÓÉÓÚÊÖ»úµÄÔ­Òò£¬´¦ÓÚ·ÉĞĞÄ£Ê½ÏÂÒ»°ã»áÔì³ÉÕâÖÖ½á¹û£¬¿ÉÒÔÊÔ×ÅÖØÆôÊÖ»ú");
+				sb.append("æ— æ³•è·å–æœ‰æ•ˆå®šä½ä¾æ®å¯¼è‡´å®šä½å¤±è´¥ï¼Œä¸€èˆ¬æ˜¯ç”±äºæ‰‹æœºçš„åŸå› ï¼Œå¤„äºé£è¡Œæ¨¡å¼ä¸‹ä¸€èˆ¬ä¼šé€ æˆè¿™ç§ç»“æœï¼Œå¯ä»¥è¯•ç€é‡å¯æ‰‹æœº");
 			}
 			sb.append("\nlocationdescribe : ");
-			sb.append(location.getLocationDescribe());// Î»ÖÃÓïÒå»¯ĞÅÏ¢
-			List<Poi> list = location.getPoiList();// POIÊı¾İ
+			sb.append(location.getLocationDescribe());// ä½ç½®è¯­ä¹‰åŒ–ä¿¡æ¯
+			List<Poi> list = location.getPoiList();// POIæ•°æ®
 			if (list != null) {
 				sb.append("\npoilist size = : ");
 				sb.append(list.size());
@@ -201,21 +201,21 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		// ÔÚactivityÖ´ĞĞonDestroyÊ±Ö´ĞĞmMapView.onDestroy()£¬ÊµÏÖµØÍ¼ÉúÃüÖÜÆÚ¹ÜÀí
+		// åœ¨activityæ‰§è¡ŒonDestroyæ—¶æ‰§è¡ŒmMapView.onDestroy()ï¼Œå®ç°åœ°å›¾ç”Ÿå‘½å‘¨æœŸç®¡ç†
 		mMapView.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// ÔÚactivityÖ´ĞĞonResumeÊ±Ö´ĞĞmMapView. onResume ()£¬ÊµÏÖµØÍ¼ÉúÃüÖÜÆÚ¹ÜÀí
+		// åœ¨activityæ‰§è¡ŒonResumeæ—¶æ‰§è¡ŒmMapView. onResume ()ï¼Œå®ç°åœ°å›¾ç”Ÿå‘½å‘¨æœŸç®¡ç†
 		mMapView.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		// ÔÚactivityÖ´ĞĞonPauseÊ±Ö´ĞĞmMapView. onPause ()£¬ÊµÏÖµØÍ¼ÉúÃüÖÜÆÚ¹ÜÀí
+		// åœ¨activityæ‰§è¡ŒonPauseæ—¶æ‰§è¡ŒmMapView. onPause ()ï¼Œå®ç°åœ°å›¾ç”Ÿå‘½å‘¨æœŸç®¡ç†
 		mMapView.onPause();
 	}
 
