@@ -12,6 +12,8 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.MyLocationConfiguration;
+import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 
@@ -37,8 +39,9 @@ import com.baidu.location.Poi;
 public class MainActivity extends Activity {
 
 	// 地图
-	MapView mMapView = null;
-	BaiduMap _mapCtrl = null;
+	private MapView mMapView = null;
+	private BaiduMap _mapCtrl = null;
+	private Marker mMarkerA;
 
 	// 定位
 	public LocationClient mLocationClient = null;
@@ -62,23 +65,27 @@ public class MainActivity extends Activity {
 		/////////////////////
 		// 地图api测试
 		LatLng llA = new LatLng(39.906965, 116.401394);
-		Marker mMarkerA;
+
 		BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher);
 		OverlayOptions ooA = new MarkerOptions().position(llA).icon(icon).zIndex(9).draggable(true);
 		mMarkerA = (Marker) (_mapCtrl.addOverlay(ooA));
 
 		////////////////////
 		// 定位
+		// 开启定位图层
+		_mapCtrl.setMyLocationEnabled(true);
+		
 		mLocationClient = new LocationClient(getApplicationContext()); // 声明LocationClient类
 		mLocationClient.registerLocationListener(myListener); // 注册监听函数
 
+		initLocation();
 		mLocationClient.start();
 
 	}
 
 	private void initLocation() {
 		LocationClientOption option = new LocationClientOption();
-		option.setLocationMode(LocationMode.Hight_Accuracy);// 可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+		option.setLocationMode(LocationMode.Device_Sensors);// 可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
 		option.setCoorType("bd09ll");// 可选，默认gcj02，设置返回的定位结果坐标系
 		int span = 1000;
 		option.setScanSpan(span);// 可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
@@ -97,11 +104,38 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onReceiveLocation(BDLocation location) {
-			
+
+			// LatLng ll = new LatLng(location.getLatitude(),
+			// location.getLongitude());
+			// MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
+			// _mapCtrl.animateMapStatus(u);
+
+			mMarkerA.remove();
+
+			// BitmapDescriptor icon =
+			// BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher);
+			// OverlayOptions ooA = new
+			// MarkerOptions().position(ll).icon(icon).zIndex(9).draggable(true);
+			// mMarkerA = (Marker) (_mapCtrl.addOverlay(ooA));
+
+			if (location == null || mMapView == null)
+				return;
+			MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
+					// 此处设置开发者获取到的方向信息，顺时针0-360
+					.direction(100).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
+			_mapCtrl.setMyLocationData(locData);
+
 			LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
 			MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
 			_mapCtrl.animateMapStatus(u);
-			
+
+			BitmapDescriptor mCurrentMarker;
+			mCurrentMarker = null;
+			mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher);
+			com.baidu.mapapi.map.MyLocationConfiguration.LocationMode mCurrentMode;
+			mCurrentMode = com.baidu.mapapi.map.MyLocationConfiguration.LocationMode.NORMAL;
+			_mapCtrl.setMyLocationConfigeration(new MyLocationConfiguration(mCurrentMode, true, null));
+
 			// Receive Location
 			StringBuffer sb = new StringBuffer(256);
 			sb.append("time : ");
